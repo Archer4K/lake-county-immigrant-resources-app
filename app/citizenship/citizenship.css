@@ -1,0 +1,55 @@
+.citizenship-page { --ink: #193c42; --teal: #075b65; --line: #c9dcda; color: var(--ink); padding-bottom: 72px; }
+.citizenship-page .nav-wrap { margin-bottom: 0; }
+.citizenship-hero { background: linear-gradient(130deg, #edf5ef, #f9f6ed); border-bottom: 1px solid var(--line); border-radius: 0 0 22px 22px; margin: 0 -24px 28px; padding: 48px 24px 35px; }
+.citizenship-hero h1 { font-size: clamp(2.5rem, 6vw, 4.4rem); max-width: 780px; line-height: 1.04; letter-spacing: -.055em; margin: 15px 0; }
+.citizenship-hero p { max-width: 690px; color: #385961; font-size: clamp(17px, 2vw, 20px); line-height: 1.5; }
+.citizenship-jump { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; }
+.citizenship-jump a { display: inline-flex; align-items: center; min-height: 46px; padding: 10px 16px; border: 1px solid #8db5b1; border-radius: 999px; background: #fff; color: var(--teal); font-weight: 750; text-decoration: none; }
+.citizenship-jump a:first-child { background: var(--teal); color: #fff; border-color: var(--teal); }
+.citizenship-section { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: clamp(20px, 3vw, 32px); margin: 0 0 22px; box-shadow: 0 5px 18px #1c3c3b0a; }
+.citizenship-step { color: #52756e; font-size: 12px; text-transform: uppercase; letter-spacing: .11em; font-weight: 850; margin-bottom: 10px; }
+.citizenship-section h2 { font-size: clamp(1.55rem, 3vw, 2rem); line-height: 1.2; margin: 0 0 20px; letter-spacing: -.025em; }
+.citizenship-section .muted, .section-heading p { color: #516b71; font-size: 15px; line-height: 1.5; }
+.citizenship-section .muted { margin: 18px 0 0; }
+.citizenship-section .muted a, .study-footer a { color: var(--teal); font-weight: 750; }
+.test-choices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+.test-choices button { display: flex; align-items: center; gap: 15px; min-height: 100px; text-align: left; padding: 18px; background: #f8fbfa; border: 2px solid #bed6d3; border-radius: 13px; color: var(--ink); font: inherit; font-weight: 650; line-height: 1.35; cursor: pointer; }
+.test-choices button:hover, .test-choices button:focus-visible { border-color: var(--teal); outline: 2px solid var(--teal); outline-offset: 2px; }
+.test-choices button.active { border-color: var(--teal); background: #e6f2ed; }
+.test-choices button > span:nth-child(2) { flex: 1; }
+.version-badge { flex: none; background: #d6e8e4; color: #14545b; border-radius: 8px; font-size: 18px; font-weight: 850; padding: 7px 10px; }
+.test-choices button.active .version-badge { background: var(--teal); color: #fff; }
+.section-heading { display: flex; justify-content: space-between; align-items: start; gap: 18px; }
+.section-heading h2 { margin-bottom: 4px; }
+.section-heading strong { color: var(--teal); white-space: nowrap; background: #e5f1ed; border-radius: 999px; padding: 8px 12px; }
+.study-card { margin: 18px 0; background: #f2f8f5; border: 1px solid #b6d4cc; border-radius: 16px; padding: clamp(20px, 3vw, 30px); }
+.study-count, .study-kind { color: #356a66; font-size: 12px; font-weight: 850; text-transform: uppercase; letter-spacing: .09em; }
+.study-card h3 { max-width: 710px; font-size: clamp(1.6rem, 3.3vw, 2.3rem); line-height: 1.23; letter-spacing: -.035em; margin: 15px 0; }
+.question-translation { color: #3f6166; font-size: 17px; line-height: 1.45; }
+.study-actions, .study-footer, .study-resource-links { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.study-actions button, .study-footer button, .resource-filters button, .study-card > button { min-height: 46px; border: 1px solid #82b6b1; border-radius: 9px; background: #fff; color: var(--teal); padding: 9px 15px; font: inherit; font-weight: 750; cursor: pointer; }
+.study-actions button:hover, .study-actions button:focus-visible, .study-footer button:hover, .resource-filters button:hover { outline: 2px solid var(--teal); outline-offset: 2px; }
+.study-actions button:last-child { background: var(--teal); border-color: var(--teal); color: #fff; }
+.study-answer { border-top: 1px solid #b6d4cc; margin-top: 21px; padding-top: 19px; }
+.study-answer strong { font-size: 20px; line-height: 1.45; }
+.study-answer .study-actions { margin-top: 18px; }
+.study-answer .study-actions button:first-child { background: var(--teal); color: #fff; }
+.study-answer .study-actions button:last-child { background: #fff; color: var(--teal); }
+.study-footer { justify-content: space-between; }
+.study-footer button:disabled { opacity: .45; cursor: default; }
+.study-footer a { display: inline-flex; align-items: center; min-height: 44px; }
+.resource-filters { display: grid; grid-template-columns: minmax(210px, 1fr) auto; align-items: center; gap: 14px; margin-bottom: 22px; }
+.resource-filters input { width: 100%; min-height: 48px; border: 1px solid #a6c8c4; border-radius: 10px; padding: 10px 13px; font: inherit; }
+.resource-filters > div { display: flex; flex-wrap: wrap; gap: 7px; }
+.resource-filters button { border-radius: 999px; white-space: nowrap; }
+.resource-filters button.active { background: var(--teal); border-color: var(--teal); color: #fff; }
+.study-resource-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+.study-resource-grid .pathway-card { min-width: 0; padding: 20px; border-color: #c7dad8; }
+.study-resource-grid h3 { font-size: 20px; line-height: 1.25; margin: 9px 0 0; }
+.study-resource-grid p { line-height: 1.45; color: #49656b; margin: 10px 0; }
+.study-resource-grid .pathway-card > span:not(.study-kind) { color: #627a7c; font-size: 14px; }
+.study-resource-links { border-top: 1px solid #dbe7e4; gap: 8px 16px; margin-top: 14px; padding-top: 10px; }
+.study-resource-links a { display: inline-flex; align-items: center; min-height: 44px; color: var(--teal); font-weight: 750; }
+.citizenship-page > .more-note { max-width: 850px; margin: 30px auto 0; line-height: 1.5; }
+@media (max-width: 850px) { .resource-filters { grid-template-columns: 1fr; } .citizenship-page .nav-wrap { display: block; } .citizenship-page .site-language { padding: 0 0 12px; } }
+@media (max-width: 680px) { .citizenship-page .site-nav a[aria-current="page"] { order: -1; } .citizenship-page .site-nav { gap: 4px; } .citizenship-hero { margin: 0 -16px 22px; padding: 32px 17px 27px; border-radius: 0 0 18px 18px; } .test-choices, .study-resource-grid { grid-template-columns: 1fr; } .test-choices button { min-height: 82px; } .section-heading { display: block; } .section-heading strong { display: inline-block; margin-top: 4px; } .study-footer { align-items: stretch; } .study-footer a { flex: 1; } }
