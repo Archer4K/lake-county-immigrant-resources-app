@@ -10,9 +10,9 @@ const Context = createContext<{ language: Language; choose: (value: Language) =>
 export const useLanguage = () => useContext(Context);
 
 const text = {
-  English: { prompt: "Choose your language", detail: "You can change it at any time. Your choice will be saved on this device.", directory: "Directory", chat: "Chat helper", pathways: "Immigration pathways", more: "More resources", call: "Call 211", language: "Site language" },
-  Español: { prompt: "Elija su idioma", detail: "Puede cambiarlo cuando quiera. Su elección se guardará en este dispositivo.", directory: "Directorio", chat: "Asistente", pathways: "Opciones de inmigración", more: "Más recursos", call: "Llame al 211", language: "Idioma del sitio" },
-  Русский: { prompt: "Выберите язык", detail: "Вы сможете изменить его в любое время. Выбор сохранится на этом устройстве.", directory: "Справочник", chat: "Помощник", pathways: "Иммиграционные пути", more: "Другие ресурсы", call: "Позвонить 211", language: "Язык сайта" },
+  English: { prompt: "Choose your language", detail: "You can change it at any time. Your choice will be saved on this device.", directory: "Directory", chat: "Chat helper", pathways: "Immigration pathways", citizenship: "Citizenship study", more: "More resources", call: "Call 211", language: "Site language" },
+  Español: { prompt: "Elija su idioma", detail: "Puede cambiarlo cuando quiera. Su elección se guardará en este dispositivo.", directory: "Directorio", chat: "Asistente", pathways: "Opciones de inmigración", citizenship: "Estudiar ciudadanía", more: "Más recursos", call: "Llame al 211", language: "Idioma del sitio" },
+  Русский: { prompt: "Выберите язык", detail: "Вы сможете изменить его в любое время. Выбор сохранится на этом устройстве.", directory: "Справочник", chat: "Помощник", pathways: "Иммиграционные пути", citizenship: "Подготовка к гражданству", more: "Другие ресурсы", call: "Позвонить 211", language: "Язык сайта" },
 };
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
@@ -38,8 +38,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   </Context.Provider>;
 }
 
-export function SiteNav({ current }: { current: "directory" | "chat" | "pathways" | "more" }) {
+export function SiteNav({ current }: { current: "directory" | "chat" | "pathways" | "citizenship" | "more" }) {
   const { language, choose } = useLanguage();
   const t = text[language];
-  return <div className="nav-wrap"><nav className="site-nav" aria-label="Main navigation"><Link href="/" aria-current={current === "directory" ? "page" : undefined}>{t.directory}</Link><Link href="/chat" aria-current={current === "chat" ? "page" : undefined}>{t.chat}</Link><Link href="/pathways" aria-current={current === "pathways" ? "page" : undefined}>{t.pathways}</Link><Link href="/more" aria-current={current === "more" ? "page" : undefined}>{t.more}</Link><a href="tel:211">{t.call}</a></nav><label className="site-language">{t.language}<select aria-label={t.language} value={language} onChange={e => choose(e.target.value as Language)}>{choices.map(choice => <option key={choice}>{choice}</option>)}</select></label></div>;
+  return <div className="nav-wrap"><nav className="site-nav" aria-label="Main navigation"><Link href="/" aria-current={current === "directory" ? "page" : undefined}>{t.directory}</Link><Link href="/chat" aria-current={current === "chat" ? "page" : undefined}>{t.chat}</Link><Link href="/pathways" aria-current={current === "pathways" ? "page" : undefined}>{t.pathways}</Link><Link href="/citizenship" aria-current={current === "citizenship" ? "page" : undefined}>{t.citizenship}</Link><Link href="/more" aria-current={current === "more" ? "page" : undefined}>{t.more}</Link><a href="tel:211">{t.call}</a></nav><label className="site-language">{t.language}<select aria-label={t.language} value={language} onChange={e => choose(e.target.value as Language)}>{choices.map(choice => <option key={choice}>{choice}</option>)}</select></label></div>;
 }
