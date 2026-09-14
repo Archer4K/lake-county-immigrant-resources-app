@@ -1,0 +1,3 @@
+import { initialResources } from "../../resources";
+export async function POST(req:Request){const body=await req.json().catch(()=>({})) as {message?:string};const {message=""}=body;const q=String(message).toLowerCase();const matches=initialResources.filter(r=>[r.name,r.description,...r.categories,...r.languages,r.city].join(" ").toLowerCase().includes(q)).slice(0,3);const text=matches.length?`Here are resources that may help: ${matches.map(r=>`${r.name} (${r.phone})`).join(", ")}. Call ahead to confirm eligibility and hours.`:"I can help you search legal aid, healthcare, housing, food, jobs, ESL and tax help. Try a category or call 211 Lake County at 211 for free referrals and interpreters.";return Response.json({message:text});}
+

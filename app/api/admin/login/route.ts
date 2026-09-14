@@ -1,0 +1,2 @@
+import { setAdminSession, validLogin } from "../../../auth";
+export async function POST(request:Request){let data:{password?:string};try{data=await request.json()}catch{return Response.json({error:"Invalid"},{status:400})}if(typeof data.password!=="string"||!validLogin(data.password))return Response.json({error:"Unauthorized"},{status:401});try{await setAdminSession();return Response.json({ok:true})}catch{return Response.json({error:"Unavailable"},{status:503})}}

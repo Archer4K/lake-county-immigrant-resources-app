@@ -1,4 +1,4 @@
-import { env } from "cloudflare:workers";
+import { redis } from "../../db";
 import { categories } from "../../resources";
 
 export async function POST(request: Request) {
@@ -9,5 +9,5 @@ export async function POST(request: Request) {
   try { const u = new URL(data.website); if(!["http:","https:"].includes(u.protocol)) throw Error(); } catch { return Response.json({error:"Invalid website"},{status:400}); }
   if (!/^\S+@\S+\.\S+$/.test(data.contactEmail)) return Response.json({error:"Invalid email"},{status:400});
   const entry = {name:data.name.trim(),categories:[data.category],languages:data.languages.split(",").map(x=>x.trim()).filter(Boolean),address:data.address.trim(),city:"",zip:(data.address.match(/\b\d{5}\b/)||[])[0]||"",county:"Lake",phone:data.phone.trim(),website:data.website.trim(),hours:data.hours.trim(),appointment:data.appointment||"Call to confirm",description:data.description.trim(),source:"Organization submission"};
-  try { await env.DB.prepare("INSERT INTO submissions (resource_id,data,contact_email,submitted_at,status) VALUES (?,?,?,?,?)").bind(data.resourceId||null,JSON.stringify(entry),data.contactEmail.trim(),new Date().toISOString(),"pending").run(); return Response.json({ok:true}); } catch { return Response.json({error:"Could not save request"},{status:503}); }
+  try { const id=crypto.randomUUID(); await redis("HSET","lake:submissions",id,JSON.stringify({id,resourceId:data.resourceId||null,data:entry,contactEmail:data.contactEmail.trim(),submittedAt:new Date().toISOString()})); return Response.json({ok:true}); } catch { return Response.json({error:"Could not save request"},{status:503}); }
 }
