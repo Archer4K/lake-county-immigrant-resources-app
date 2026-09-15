@@ -1,28 +1,7 @@
 export type TestVersion = "2008" | "2025";
-export type StudyCard = { question: string; answer: string; es: string; ru: string };
 
-// Short practice prompts adapted from the linked USCIS question-and-answer lists.
-// Avoid current-officeholder questions, whose answers change after elections.
-export const studyCards: Record<TestVersion, StudyCard[]> = {
-  "2008": [
-    { question:"What is the highest law of the United States?", answer:"The Constitution.", es:"¿Cuál es la ley suprema de Estados Unidos?", ru:"Какой закон является высшим в США?" },
-    { question:"What does the Constitution do?", answer:"It sets up the government. (It also defines the government and protects basic rights.)", es:"¿Qué hace la Constitución?", ru:"Что делает Конституция?" },
-    { question:"What are the first three words of the Constitution?", answer:"We the People.", es:"¿Cuáles son las primeras tres palabras de la Constitución?", ru:"Какие первые три слова Конституции?" },
-    { question:"What is an amendment?", answer:"A change or addition to the Constitution.", es:"¿Qué es una enmienda?", ru:"Что такое поправка?" },
-    { question:"What is the name for the first ten amendments?", answer:"The Bill of Rights.", es:"¿Cómo se llaman las primeras diez enmiendas?", ru:"Как называются первые десять поправок?" },
-    { question:"Name one freedom in the First Amendment.", answer:"Speech. (Other accepted examples include religion, assembly, press, or petitioning the government.)", es:"Nombre una libertad de la Primera Enmienda.", ru:"Назовите одну свободу из Первой поправки." },
-    { question:"How many amendments does the Constitution have?", answer:"Twenty-seven (27).", es:"¿Cuántas enmiendas tiene la Constitución?", ru:"Сколько поправок в Конституции?" },
-  ],
-  "2025": [
-    { question:"Name the three branches of the U.S. government.", answer:"Legislative, executive, and judicial.", es:"Nombre las tres ramas del gobierno de EE. UU.", ru:"Назовите три ветви власти США." },
-    { question:"Which branch does the President lead?", answer:"The executive branch.", es:"¿Qué rama dirige el presidente?", ru:"Какую ветвь власти возглавляет президент?" },
-    { question:"What part of the federal government writes laws?", answer:"Congress. (The legislature or legislative branch is also accepted.)", es:"¿Qué parte del gobierno federal redacta las leyes?", ru:"Какая часть федерального правительства пишет законы?" },
-    { question:"What are the two parts of Congress?", answer:"The Senate and the House of Representatives.", es:"¿Cuáles son las dos partes del Congreso?", ru:"Из каких двух частей состоит Конгресс?" },
-    { question:"Name one power of Congress.", answer:"Writing laws. (Other accepted examples include declaring war or making the federal budget.)", es:"Nombre una facultad del Congreso.", ru:"Назовите одно полномочие Конгресса." },
-    { question:"How many U.S. senators are there?", answer:"One hundred (100).", es:"¿Cuántos senadores hay en EE. UU.?", ru:"Сколько сенаторов США?" },
-    { question:"How long is a U.S. senator's term?", answer:"Six (6) years.", es:"¿Cuánto dura el mandato de un senador?", ru:"Сколько длится срок полномочий сенатора?" },
-  ],
-};
+export { officialCivicsCards as studyCards } from "./official-civics-data";
+export type { OfficialCivicsCard as StudyCard } from "./official-civics-data";
 
 export const officialLists: Record<TestVersion, string> = {
   "2008": "https://www.uscis.gov/sites/default/files/document/questions-and-answers/OoC_100_Questions_2008_Civics_Test_V1.pdf",
