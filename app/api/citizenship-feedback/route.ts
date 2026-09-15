@@ -3,7 +3,7 @@ import { studyCards, type TestVersion } from "../../citizenship/study-data";
 type Language = "English" | "Español" | "Русский";
 type RequestBody = { version?: unknown; questionId?: unknown; response?: unknown; language?: unknown };
 
-const model = "gemini-3.7-flash";
+const model = "gemini-3.6-flash";
 
 const unavailable = {
   English: "AI feedback is not available right now. Use the official answers below to compare your response.",
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
   const instruction = `You are an encouraging citizenship-test practice coach. Evaluate only whether the learner's response matches one or more supplied official USCIS answers. Reply in ${language}. Do not give legal advice, decide eligibility, create new answers, or claim a response is guaranteed to be accepted by a USCIS officer. Be concise and use plain language. Return strict JSON with verdict (correct, needs-work, or unclear), feedback (one or two sentences), and hint (one short study hint).`;
   try {
-    const responseFromGemini = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
+    const request = () => fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-goog-api-key": key },
       body: JSON.stringify({
@@ -35,6 +35,8 @@ export async function POST(req: Request) {
       }),
       signal: AbortSignal.timeout(12000), cache: "no-store",
     });
+    let responseFromGemini = await request();
+    if (responseFromGemini.status === 503 || responseFromGemini.status === 429) responseFromGemini = await request();
     if (!responseFromGemini.ok) throw new Error(`Gemini returned ${responseFromGemini.status}`);
     const data = await responseFromGemini.json() as { candidates?: { content?: { parts?: { text?: string }[] } }[] };
     const raw = data.candidates?.[0]?.content?.parts?.map(part => part.text || "").join("") || "";
