@@ -25,21 +25,27 @@ export async function POST(req: Request) {
 
   const instruction = `You are an encouraging citizenship-test practice coach. Evaluate only whether the learner's response matches one or more supplied official USCIS answers. Reply in ${language}. Do not give legal advice, decide eligibility, create new answers, or claim a response is guaranteed to be accepted by a USCIS officer. Be concise and use plain language. Return strict JSON with verdict (correct, needs-work, or unclear), feedback (one or two sentences), and hint (one short study hint).`;
   try {
-    const request = () => fetch("https://generativelanguage.googleapis.com/v1beta/interactions", {
+    const request = () => fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-goog-api-key": key },
       body: JSON.stringify({
-        model, store: false,
-        input: `${instruction}\n\nOfficial USCIS question: ${card.question}\nOfficial accepted answers: ${card.answers.join(" | ")}\nLearner response: ${response}\n\nReturn only the required JSON.`,
-        response_format: { type: "text", mime_type: "application/json", schema: { type: "object", properties: { verdict: { type: "string", enum: ["correct", "needs-work", "unclear"] }, feedback: { type: "string" }, hint: { type: "string" } }, required: ["verdict", "feedback", "hint"] } },
+        contents: [{ parts: [{ text: `${instruction}\n\nOfficial USCIS question: ${card.question}\nOfficial accepted answers: ${card.answers.join(" | ")}\nLearner response: ${response}` }] }],
+        generationConfig: {
+          responseMimeType: "application/json",
+          responseSchema: { type: "object", properties: { verdict: { type: "string", enum: ["correct", "needs-work", "unclear"] }, feedback: { type: "string" }, hint: { type: "string" } }, required: ["verdict", "feedback", "hint"] },
+          maxOutputTokens: 300,
+        },
       }),
-      signal: AbortSignal.timeout(12000), cache: "no-store",
+      signal: AbortSignal.timeout(25000), cache: "no-store",
     });
     let responseFromGemini = await request();
     if (responseFromGemini.status === 503 || responseFromGemini.status === 429) responseFromGemini = await request();
-    if (!responseFromGemini.ok) throw new Error(`Gemini returned ${responseFromGemini.status}`);
-    const data = await responseFromGemini.json() as { steps?: { type?: string; content?: { type?: string; text?: string }[] }[] };
-    const raw = data.steps?.filter(step => step.type === "model_output").flatMap(step => step.content || []).filter(part => part.type === "text").map(part => part.text || "").join("") || "";
+    if (!responseFromGemini.ok) {
+      const detail = (await responseFromGemini.text()).slice(0, 600);
+      throw new Error(`Gemini returned ${responseFromGemini.status}: ${detail}`);
+    }
+    const data = await responseFromGemini.json() as { candidates?: { content?: { parts?: { text?: string }[] } }[] };
+    const raw = data.candidates?.[0]?.content?.parts?.map(part => part.text || "").join("") || "";
     const result = JSON.parse(raw) as { verdict?: unknown; feedback?: unknown; hint?: unknown };
     if (!(["correct", "needs-work", "unclear"] as string[]).includes(String(result.verdict)) || typeof result.feedback !== "string" || typeof result.hint !== "string") throw new Error("Invalid Gemini response");
     return Response.json({ verdict: result.verdict, feedback: result.feedback.slice(0, 700), hint: result.hint.slice(0, 300), mode: "ai" });
