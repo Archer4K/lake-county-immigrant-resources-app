@@ -3,7 +3,7 @@ import { studyCards, type TestVersion } from "../../citizenship/study-data";
 type Language = "English" | "Español" | "Русский";
 type RequestBody = { version?: unknown; questionId?: unknown; response?: unknown; language?: unknown };
 
-const model = "gemini-2.5-flash-lite";
+const model = "gemini-3.7-flash";
 
 const unavailable = {
   English: "AI feedback is not available right now. Use the official answers below to compare your response.",

@@ -5,7 +5,7 @@ type ChatTurn = { role: "user" | "assistant"; text: string };
 type RequestBody = { message?: unknown; language?: unknown; history?: unknown };
 type GeminiReply = { answer?: string; resourceIds?: string[] };
 
-const model = "gemini-2.5-flash-lite";
+const model = "gemini-3.7-flash";
 
 function localReply(message: string, resources: Resource[], language: string) {
   const terms = message.toLowerCase().split(/\s+/).filter(term => term.length > 2);
