@@ -1,4 +1,5 @@
 "use client";
+import { hindiRights } from "../hindi";
 
 import { SiteNav, useLanguage } from "../language";
 import "./rights.css";
@@ -9,6 +10,7 @@ const sources = [
   ["Illinois Attorney General", "https://illinoisattorneygeneral.gov/rights-of-the-people/civil-rights/immigration/"],
 ];
 const copy = {
+  हिन्दी: hindiRights,
   English: {
     title: "Know your rights", intro: "Clear starting points for encounters with immigration officers and preparing your family.",
     note: "General information, not legal advice. Rules and enforcement practices can change. Ask a qualified immigration lawyer about your situation. These translations are a site summary, not an official legal translation.",
@@ -61,7 +63,7 @@ export default function RightsPage() {
   const t = copy[language];
   return <main className="more-page rights-page">
     <SiteNav current="rights" />
-    <header className="more-heading"><div className="eyebrow">LAKE COUNTY · ILLINOIS</div><h1>{t.title}</h1><p>{t.intro}</p><p className="rights-date">{t.checked}</p></header>
+    <header className="more-heading"><div className="eyebrow">{language === "हिन्दी" ? "लेक काउंटी · इलिनॉय" : language === "Русский" ? "ОКРУГ ЛЕЙК · ИЛЛИНОЙС" : language === "Español" ? "CONDADO DE LAKE · ILLINOIS" : "LAKE COUNTY · ILLINOIS"}</div><h1>{t.title}</h1><p>{t.intro}</p><p className="rights-date">{t.checked}</p></header>
     <aside className="rights-urgent"><h2>{t.urgent}</h2><p>{t.hotline}</p><a href="tel:8554357693">855-435-7693</a><p>{t.emergency}</p></aside>
     <p className="rights-note">{t.note}</p>
     <button className="rights-print" onClick={() => window.print()}>{t.print}</button>

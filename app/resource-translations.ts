@@ -15,5 +15,5 @@ const descriptions: Record<string, { Español: string; Русский: string }>
 };
 
 export function resourceDescription(id: string, original: string, language: Language) {
-  return language === "English" ? original : descriptions[id]?.[language] || original;
+  return language === "English" || language === "हिन्दी" ? original : descriptions[id]?.[language] || original;
 }

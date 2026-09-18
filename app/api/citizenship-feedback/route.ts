@@ -1,10 +1,11 @@
 import { studyCards, type TestVersion } from "../../citizenship/study-data";
 import { generateGeminiJson } from "../gemini";
 
-type Language = "English" | "Español" | "Русский";
+import { validLanguage } from "../../locale";
 type RequestBody = { version?: unknown; questionId?: unknown; response?: unknown; language?: unknown };
 
 const unavailable = {
+  हिन्दी: "AI प्रतिक्रिया अभी उपलब्ध नहीं है। अपने उत्तर की तुलना नीचे दिए आधिकारिक उत्तरों से करें।",
   English: "AI feedback is not available right now. Use the official answers below to compare your response.",
   Español: "Los comentarios de IA no están disponibles ahora. Use las respuestas oficiales de abajo para comparar su respuesta.",
   Русский: "ИИ-обратная связь сейчас недоступна. Сравните свой ответ с официальными ответами ниже.",
@@ -15,14 +16,14 @@ export async function POST(req: Request) {
   const version = body.version === "2008" || body.version === "2025" ? body.version as TestVersion : null;
   const questionId = typeof body.questionId === "number" ? body.questionId : null;
   const response = typeof body.response === "string" ? body.response.trim().slice(0, 800) : "";
-  const language: Language = body.language === "Español" || body.language === "Русский" ? body.language : "English";
+  const language = validLanguage(body.language);
   const card = version && questionId ? studyCards[version].find(item => item.id === questionId) : undefined;
   if (!card || !response) return Response.json({ error: "A valid question and answer are required." }, { status: 400 });
 
   const key = process.env.GEMINI_API_KEY;
   if (!key) return Response.json({ verdict: "unclear", feedback: unavailable[language], hint: "", mode: "official" });
 
-  const instruction = `You are an encouraging citizenship-test practice coach. Evaluate only whether the learner's response matches one or more supplied official USCIS answers. Reply in ${language}. Do not give legal advice, decide eligibility, create new answers, or claim a response is guaranteed to be accepted by a USCIS officer. Be concise and use plain language. Return strict JSON with verdict (correct, needs-work, or unclear), feedback (one or two sentences), and hint (one short study hint).`;
+  const instruction = `You are an encouraging citizenship-test practice coach. Evaluate only whether the learner's response matches one or more supplied official USCIS answers. Reply only in ${language}, regardless of the response language. हिन्दी means Hindi in Devanagari script. Do not give legal advice, decide eligibility, create new answers, or claim a response is guaranteed to be accepted by a USCIS officer. Be concise and use plain language. Return strict JSON with verdict (correct, needs-work, or unclear), feedback (one or two sentences), and hint (one short study hint).`;
   try {
     const raw = await generateGeminiJson(
       key,
