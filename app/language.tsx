@@ -38,8 +38,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   </Context.Provider>;
 }
 
-export function SiteNav({ current }: { current: "directory" | "chat" | "pathways" | "citizenship" | "more" }) {
+export function SiteNav({ current }: { current: "directory" | "chat" | "pathways" | "citizenship" | "more" | "rights" }) {
   const { language, choose } = useLanguage();
   const t = text[language];
-  return <div className="nav-wrap"><nav className="site-nav" aria-label="Main navigation"><Link href="/" aria-current={current === "directory" ? "page" : undefined}>{t.directory}</Link><Link href="/chat" aria-current={current === "chat" ? "page" : undefined}>{t.chat}</Link><Link href="/pathways" aria-current={current === "pathways" ? "page" : undefined}>{t.pathways}</Link><Link href="/citizenship" aria-current={current === "citizenship" ? "page" : undefined}>{t.citizenship}</Link><Link href="/more" aria-current={current === "more" ? "page" : undefined}>{t.more}</Link><a href="tel:211">{t.call}</a></nav><label className="site-language">{t.language}<select aria-label={t.language} value={language} onChange={e => choose(e.target.value as Language)}>{choices.map(choice => <option key={choice}>{choice}</option>)}</select></label></div>;
+  const rights = language === "Español" ? "Conozca sus derechos" : language === "Русский" ? "Знайте свои права" : "Know your rights";
+  return <div className="nav-wrap"><nav className="site-nav" aria-label="Main navigation"><Link href="/" aria-current={current === "directory" ? "page" : undefined}>{t.directory}</Link><Link href="/chat" aria-current={current === "chat" ? "page" : undefined}>{t.chat}</Link><Link href="/pathways" aria-current={current === "pathways" ? "page" : undefined}>{t.pathways}</Link><Link href="/citizenship" aria-current={current === "citizenship" ? "page" : undefined}>{t.citizenship}</Link><Link href="/more" aria-current={current === "more" ? "page" : undefined}>{t.more}</Link><Link href="/rights" aria-current={current === "rights" ? "page" : undefined}>{rights}</Link><a href="tel:211">{t.call}</a></nav><label className="site-language">{t.language}<select aria-label={t.language} value={language} onChange={e => choose(e.target.value as Language)}>{choices.map(choice => <option key={choice}>{choice}</option>)}</select></label></div>;
 }
